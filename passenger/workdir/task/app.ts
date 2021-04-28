@@ -81,7 +81,7 @@ const generatePassengers = (passengers:number): person[] => {
  * @returns
  */
 const getMultipleOfFive = (number: number): { multiple:number, remainder:number} => {
-    let multiple = 0
+    let multiple = 0;
     let newNum = number
     if(number === 0 ){
        return {multiple: 0, remainder: 0}
@@ -119,16 +119,3 @@ const getFirstTrip = (passengers:number, reservation: person[]) => {
 
 export default taskOne;
 
-const generateMockPassengers = (start:number, end:number,): person[] => {
-    const reservation:person[] = [];
-    let count:number = 0;
-    const locations:string[] = [ 'Abuja', 'Benue', 'Katsina', 'Lagos', 'Sambisa']
-    for (let i=start; i <= end; i++) {
-        const person = { name: `passenger${i}`, location: locations[count] };
-        reservation.push(person);
-        count === 4 ? count = 0 : count++;
-    }
-    return reservation
-}
-
-console.log(generateMockPassengers(101, 105));
