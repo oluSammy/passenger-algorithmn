@@ -5,40 +5,23 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var mock_1 = require("./mock");
 var app_1 = __importDefault(require("../task/app"));
-var shuffleOne = [
-    { name: 'passenger51', location: 'Abuja' },
-    { name: 'passenger52', location: 'Benue' },
-    { name: 'passenger53', location: 'Katsina' },
-    { name: 'passenger54', location: 'Lagos' },
-    { name: 'passenger55', location: 'Sambisa' },
-    { name: 'passenger56', location: 'Abuja' },
-    { name: 'passenger57', location: 'Benue' },
-    { name: 'passenger58', location: 'Katsina' },
-    { name: 'passenger59', location: 'Lagos' },
-    { name: 'passenger60', location: 'Sambisa' }
-];
-var shuffleTwo = [
-    { name: 'passenger101', location: 'Abuja' },
-    { name: 'passenger102', location: 'Benue' },
-    { name: 'passenger103', location: 'Katsina' },
-    { name: 'passenger104', location: 'Lagos' },
-    { name: 'passenger105', location: 'Sambisa' }
-];
-var shuffleThree = [
-    { name: 'passenger151', location: 'Abuja' },
-    { name: 'passenger152', location: 'Benue' },
-    { name: 'passenger153', location: 'Katsina' },
-    { name: 'passenger154', location: 'Lagos' },
-    { name: 'passenger155', location: 'Sambisa' }
-];
-var shuffleFour = [
-    { name: 'passenger201', location: 'Abuja' },
-    { name: 'passenger202', location: 'Benue' },
-    { name: 'passenger203', location: 'Katsina' },
-    { name: 'passenger204', location: 'Lagos' },
-    { name: 'passenger205', location: 'Sambisa' }
-];
 var locations = ['Abuja', 'Benue', 'Katsina', 'Lagos', 'Sambisa'];
+/**
+ * @function to generate mock passengers
+ * @param start
+ * @param end
+ * @returns an array of passengers starting from the start to the end
+ */
+var generateMockPassengers = function (start, end) {
+    var reservation = [];
+    var count = 0;
+    for (var i = start; i <= end; i++) {
+        var person = { name: "passenger" + i, location: locations[count] };
+        reservation.push(person);
+        count === 4 ? count = 0 : count++;
+    }
+    return reservation;
+};
 describe("Test for function structure", function () {
     it("Returns an object for even distro", function () {
         var returnValue = app_1.default(100, 2);
@@ -76,22 +59,22 @@ describe("test for shuffle", function () {
     it("Single shuffle works ", function () {
         var returnValue = app_1.default(60, 1);
         expect(returnValue.count).toEqual(2);
-        expect(returnValue.boarded).toEqual(shuffleOne);
+        expect(returnValue.boarded).toEqual(generateMockPassengers(51, 60));
     });
     it("first multiple shuffle works ", function () {
         var returnValue = app_1.default(105, 2);
         expect(returnValue.count).toBe(3);
-        expect(returnValue.boarded).toEqual(shuffleTwo);
+        expect(returnValue.boarded).toEqual(generateMockPassengers(101, 105));
     });
     it("second multiple shuffle works ", function () {
         var returnValue = app_1.default(155, 3);
         expect(returnValue.count).toBe(4);
-        expect(returnValue.boarded).toEqual(shuffleThree);
+        expect(returnValue.boarded).toEqual(generateMockPassengers(151, 155));
     });
     it("third multiple shuffle works ", function () {
         var returnValue = app_1.default(205, 4);
         expect(returnValue.count).toBe(5);
-        expect(returnValue.boarded).toEqual(shuffleFour);
+        expect(returnValue.boarded).toEqual(generateMockPassengers(201, 205));
     });
 });
 describe("test for boarded value with passengers of 50 and shuffle 0", function () {

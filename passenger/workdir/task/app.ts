@@ -26,7 +26,7 @@ const taskOne = (passengers:number, shuffle:number)=>{
     let { count, boarded, newReservation } = getFirstTrip(passengers, reservation);
     reservation = newReservation;
 
-    // if shuffle is 0 return
+    // if shuffle is 0 return after first trip
     if (shuffle === 0) {
         return {
             boarded,
@@ -39,11 +39,13 @@ const taskOne = (passengers:number, shuffle:number)=>{
     // break out of loop if passengers are less than 5 or shuffle is equal to 0
     while (shuffle > 0 && reservation.length >= 5) {
         const { multiple } = getMultipleOfFive(reservation.length);
+        // if passengers in reservation list are more than 50, remove 50
         if (multiple > 10) {
             boarded = reservation.splice(0, 50);
             shuffle--;
             count++;
         } else {
+            // get multiple of five and remove it
             const firstTripMultiple = getMultipleOfFive(reservation.length);
             boarded = reservation.splice(0, firstTripMultiple.multiple * 5);
             shuffle--;
@@ -112,4 +114,21 @@ const getFirstTrip = (passengers:number, reservation: person[]) => {
     return {count: 1, boarded, newReservation: reservation, remainderAfterFirstTrip}
 }
 
+// console.log(taskOne(55, 4));
+
+
 export default taskOne;
+
+const generateMockPassengers = (start:number, end:number,): person[] => {
+    const reservation:person[] = [];
+    let count:number = 0;
+    const locations:string[] = [ 'Abuja', 'Benue', 'Katsina', 'Lagos', 'Sambisa']
+    for (let i=start; i <= end; i++) {
+        const person = { name: `passenger${i}`, location: locations[count] };
+        reservation.push(person);
+        count === 4 ? count = 0 : count++;
+    }
+    return reservation
+}
+
+console.log(generateMockPassengers(101, 105));

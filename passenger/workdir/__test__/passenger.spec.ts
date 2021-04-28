@@ -1,48 +1,29 @@
 import { prefilled } from "./mock";
 import task, { person } from '../task/app';
 
-const shuffleOne: person[] = [
-  { name: 'passenger51', location: 'Abuja' }, 
-  { name: 'passenger52', location: 'Benue' }, 
-  { name: 'passenger53', location: 'Katsina' }, 
-  { name: 'passenger54', location: 'Lagos' }, 
-  { name: 'passenger55', location: 'Sambisa' }, 
-  { name: 'passenger56', location: 'Abuja' }, 
-  { name: 'passenger57', location: 'Benue' }, 
-  { name: 'passenger58', location: 'Katsina' }, 
-  { name: 'passenger59', location: 'Lagos' }, 
-  { name: 'passenger60', location: 'Sambisa' }
-];
+const locations:string[] = [ 'Abuja', 'Benue', 'Katsina', 'Lagos', 'Sambisa'];
 
-const shuffleTwo: person[] = [
-  { name: 'passenger101', location: 'Abuja' }, 
-  { name: 'passenger102', location: 'Benue' }, 
-  { name: 'passenger103', location: 'Katsina' }, 
-  { name: 'passenger104', location: 'Lagos' }, 
-  { name: 'passenger105', location: 'Sambisa' }
-];
+/**
+ * @function to generate mock passengers
+ * @param start
+ * @param end
+ * @returns an array of passengers starting from the start to the end
+ */
+const generateMockPassengers = (start:number, end:number,): person[] => {
+  const reservation:person[] = [];
+  let count:number = 0;
+  for (let i=start; i <= end; i++) {
+      const person = { name: `passenger${i}`, location: locations[count] };
+      reservation.push(person);
+      count === 4 ? count = 0 : count++;
+  }
+  return reservation
+}
 
-const shuffleThree: person[] = [
-  { name: 'passenger151', location: 'Abuja' }, 
-  { name: 'passenger152', location: 'Benue' }, 
-  { name: 'passenger153', location: 'Katsina' }, 
-  { name: 'passenger154', location: 'Lagos' }, 
-  { name: 'passenger155', location: 'Sambisa' }
-]
-
-const shuffleFour: person[] = [
-  { name: 'passenger201', location: 'Abuja' }, 
-  { name: 'passenger202', location: 'Benue' }, 
-  { name: 'passenger203', location: 'Katsina' }, 
-  { name: 'passenger204', location: 'Lagos' }, 
-  { name: 'passenger205', location: 'Sambisa' }
-]
-
+// interface for key value pair
 interface keyValue {
   [propName:string]: number
 }
-
-const locations:string[] = [ 'Abuja', 'Benue', 'Katsina', 'Lagos', 'Sambisa'];
 
 describe("Test for function structure", () => {
   it("Returns an object for even distro", () => {
@@ -87,25 +68,25 @@ describe("test for shuffle", () => {
   it("Single shuffle works ", () => {
     const returnValue = task(60, 1);
     expect(returnValue.count).toEqual(2);
-    expect(returnValue.boarded).toEqual(shuffleOne);
+    expect(returnValue.boarded).toEqual(generateMockPassengers(51, 60));
   });
 
   it("first multiple shuffle works ", () => {
     const returnValue = task(105, 2);
     expect(returnValue.count).toBe(3)
-    expect(returnValue.boarded).toEqual(shuffleTwo)
+    expect(returnValue.boarded).toEqual(generateMockPassengers(101, 105))
   });
 
   it("second multiple shuffle works ", () => {
     const returnValue = task(155, 3);
     expect(returnValue.count).toBe(4);
-    expect(returnValue.boarded).toEqual(shuffleThree);
+    expect(returnValue.boarded).toEqual(generateMockPassengers(151, 155));
   });
 
   it("third multiple shuffle works ", () => {
     const returnValue = task(205, 4);
     expect(returnValue.count).toBe(5);
-    expect(returnValue.boarded).toEqual(shuffleFour);
+    expect(returnValue.boarded).toEqual(generateMockPassengers(201, 205));
   });
 });
 
